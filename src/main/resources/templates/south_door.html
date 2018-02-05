@@ -10,6 +10,7 @@
 	<link href="../flat/dist/css/flat-ui.css" rel="stylesheet" />
 
 	<script src="../jquery/jquery-2.2.3.min.js"></script>
+	<script src="../bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 	<script type="text/javascript" src="../app/page/js/modernizr.js"></script>
 
   	<style>
@@ -99,6 +100,18 @@
 		.normal-proxy{
 			background: linear-gradient(to bottom, rgba(236,241,244,1) 0%,rgb(170, 228, 177) 100%);
 		}
+		.hidden{
+			display: none;
+		}
+		.alert{
+			color: #8a6d3b;
+			background-color: #fcf8e3;
+			border-color: #faebcc;
+			padding: 15px;
+			margin-bottom: 20px;
+			border: 1px solid transparent;
+			border-radius: 4px;
+		}
 	</style>
 </head>
 
@@ -145,10 +158,14 @@
 				  </div>
 
 				  <div class="form-group float-form" style="margin-top: 5px">
-					  <a class="btn btn-primary btn-lg btn-block" id="add-url-model" href="javascript:void(0)">Add</a>
+					  <a class="btn btn-primary btn-lg btn-block" data-loading-text="Check..."  id="add-url-model" href="javascript:void(0)">Add</a>
 				  </div>
 
-				  <br/>
+				  <br/><br/>
+				  <div class="alert div-alert-warning hidden" id="url-manager-alert">
+
+				  </div>
+
 				  <table class="table table-bordered">
 					  <thead>
 					  <tr>
@@ -179,10 +196,13 @@
 				  </div>
 
 				  <div class="form-group float-form" style="margin-top: 5px">
-					  <a class="btn btn-primary btn-lg btn-block" id="add-proxy-model" href="javascript:void(0)">Add</a>
+					  <a class="btn btn-primary btn-lg btn-block" data-loading-text="Check..."  id="add-proxy-model" href="javascript:void(0)">Add</a>
 				  </div>
 
-				  <br/>
+				  <br/><br/>
+				  <div class="alert div-alert-warning hidden" id="proxy-manager-alert">
+
+				  </div>
 				  <table class="table table-bordered">
 					  <thead>
 					  <tr>

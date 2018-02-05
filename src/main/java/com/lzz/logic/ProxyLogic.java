@@ -29,4 +29,13 @@ public class ProxyLogic {
         List<ProxyModel> proxyList = proxyDao.proxyList();
         return new Response(0, "success", proxyList);
     }
+
+    public boolean checkProxyPort(Integer port){
+        ProxyModel proxyModel = proxyDao.getProxyPort(port);
+        boolean res = false;
+        if( null != proxyModel ){
+            res = true;
+        }
+        return res;
+    }
 }

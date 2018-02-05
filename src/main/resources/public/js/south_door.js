@@ -19,7 +19,7 @@ $(document).on("click", ".url-wrapper", function () {
     var detail = $(this).data("detail");
     var url = detail.url;
     if( detail.proxyPort != 0 ){
-        var url = location.hostname + ":" + detail.proxyPort + getUrlPath(url);
+        var url = document.location.protocol + "//" + location.hostname + ":" + detail.proxyPort + getUrlPath(url);
     }
     console.log( url );
     window.open( url );
@@ -31,9 +31,16 @@ $("#add-url-model").click(function () {
     params.url = $('[name="url"]').val();
     params.proxyPort = $('[name="proxyPort"]').val();
     console.log( params );
+    var $btn = $(this).button('loading');
+    var check_url = get_url_by_param("/check/url-model", params);
     var url = get_url_by_param("/add-url", params);
-    $.get(url, function (res) {
+
+    checkGet(this,check_url, url, function (res) {
         window.location.href = target_path + 2;
+    }, function (res) {
+        var str = alert_msg(res.msg);
+        $("#url-manager-alert").removeClass("hidden");
+        $("#url-manager-alert").html(str);
     });
 });
 
@@ -51,9 +58,15 @@ $("#add-proxy-model").click(function () {
     params.ip = $('[name="p-ip"]').val();
     params.port = $('[name="p-port"]').val();
     console.log( params );
+    var check_url = get_url_by_param("/check/proxy-model", params);
     var url = get_url_by_param("/add-proxy", params);
-    $.get(url, function (res) {
+
+    checkGet(this,check_url, url, function (res) {
         window.location.href = target_path + 3;
+    }, function (res) {
+        var str = alert_msg(res.msg);
+        $("#proxy-manager-alert").removeClass("hidden");
+        $("#proxy-manager-alert").html(str);
     });
 });
 

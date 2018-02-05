@@ -2,6 +2,7 @@ package com.lzz.controller;
 
 import com.lzz.logic.UrlLogic;
 import com.lzz.model.Response;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,7 +14,7 @@ import javax.annotation.Resource;
 /**
  * Created by lzz on 2018/2/4.
  */
-@org.springframework.stereotype.Controller
+@Controller
 public class UrlController {
     @Resource
     UrlLogic logic;

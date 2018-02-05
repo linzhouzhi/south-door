@@ -56,4 +56,9 @@ public class ProxyDao implements IProxyDao {
         }
         return proxyModelList;
     }
+
+    @Override
+    public ProxyModel getProxyPort(Integer port) {
+        return proxyMap.get( port );
+    }
 }

@@ -34,7 +34,7 @@ public class ProxyThread implements Runnable{
 
             logger.info("proxyPort="+proxyPort + ";remoteIp=" + remoteIp + ";remotePort="+remotePort);
             while( threadSwitch.isStart() == true ){
-                System.out.println("while true----------");
+                logger.info("while true----------" + proxyPort);
                 Socket clientSocket = null;
                 Socket remoteServerSocket = null;
                 try {
@@ -63,16 +63,14 @@ public class ProxyThread implements Runnable{
     }
 
     private void clientToRemote(Socket clientSocket, Socket remoteServerSocket) {
-        Thread clientToRemoteThread = new TransDataTask(clientSocket, remoteServerSocket , this.threadSwitch);
-        clientToRemoteThread.setName("client to remote");
-        clientToRemoteThread.start();
+        Runnable clientToRemoteThread = new TransDataTask(clientSocket, remoteServerSocket , this.threadSwitch);
+        ProxyManager.threadPool.submit( clientToRemoteThread );
         logger.info( "client to remote is start......" );
     }
 
     private void remoteToClient(Socket remoteServerSocket, Socket clientSocket) {
-        Thread remoteToClientThread = new TransDataTask(remoteServerSocket ,clientSocket, this.threadSwitch);
-        remoteToClientThread.setName("remote-to-client");
-        remoteToClientThread.start();
+        Runnable remoteToClientThread = new TransDataTask(remoteServerSocket ,clientSocket, this.threadSwitch);
+        ProxyManager.threadPool.submit( remoteToClientThread );
         logger.info( "remote to client is start......" );
     }
 

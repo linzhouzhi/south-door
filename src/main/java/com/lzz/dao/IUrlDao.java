@@ -13,4 +13,6 @@ public interface IUrlDao {
     List<UrlModel> urlList();
 
     boolean delete(String showName);
+
+    UrlModel getUrlModel(String showName);
 }

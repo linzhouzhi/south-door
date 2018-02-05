@@ -2,6 +2,7 @@ package com.lzz.controller;
 
 import com.lzz.logic.ProxyLogic;
 import com.lzz.model.Response;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +13,7 @@ import javax.annotation.Resource;
 /**
  * Created by lzz on 2018/2/4.
  */
-@org.springframework.stereotype.Controller
+@Controller
 public class ProxyController {
     @Resource
     ProxyLogic logic;

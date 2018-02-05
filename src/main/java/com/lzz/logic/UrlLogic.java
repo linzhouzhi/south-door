@@ -33,4 +33,14 @@ public class UrlLogic {
         List<UrlModel> urlList = urlDao.urlList();
         return new Response(0, "success", urlList);
     }
+
+
+    public boolean checkShowName(String showName){
+        UrlModel urlModel = urlDao.getUrlModel(showName);
+        boolean res = false;
+        if( null != urlModel ){
+            res = true;
+        }
+        return res;
+    }
 }

@@ -11,11 +11,11 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 
-public class TransDataTask extends Thread {
-    private transient static Log log = LogFactory.getLog(ProxyManager.class);
-    Socket getDataSocket;
-    Socket putDataSocket;
-    ProxySwitch threadSwitch;
+public class TransDataTask implements Runnable {
+    private transient static Log logger = LogFactory.getLog(ProxyManager.class);
+    private Socket getDataSocket;
+    private Socket putDataSocket;
+    private ProxySwitch threadSwitch;
     public TransDataTask(Socket getDataSocket, Socket putDataSocket, ProxySwitch threadSwitch){
         this.getDataSocket = getDataSocket;
         this.putDataSocket = putDataSocket;
@@ -33,18 +33,19 @@ public class TransDataTask extends Thread {
                     int readlen = in.read(data);
 
                     if(readlen<=0){ // 没有数据就直接退出
-                        Thread.sleep(1000);
                         System.out.println("stop trans data break.....");
                         break;
                     }
                     out.write(data ,0,readlen);
                     out.flush();
-                }catch (Exception ignore){}
+                }catch (Exception e){
+                    logger.error( e );
+                }
             }
         } catch (Exception e) {
-            log.error( e );
+            logger.error( e );
         }finally {
-            System.out.println("transedata port data ------- finally");
+            logger.info("transedata port data ------- finally");
             try {
                 if( putDataSocket.isOutputShutdown() == false ){
                     putDataSocket.shutdownOutput();
@@ -53,7 +54,7 @@ public class TransDataTask extends Thread {
                     getDataSocket.shutdownInput();
                 }
             }catch (Exception e){
-                log.error( e );
+                logger.error( e );
             }
         }
     }

@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
 @Component
 public class ProxyManager {
     private transient static Log log = LogFactory.getLog(ProxyManager.class);
-    private static ExecutorService threadPool = Executors.newCachedThreadPool();
+    public static ExecutorService threadPool = Executors.newCachedThreadPool();
     private static Map<Integer, ProxyThread> proxyThreadMap = new ConcurrentHashMap<>();
 
     @Scheduled(fixedRate = 5000)

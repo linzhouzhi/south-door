@@ -13,4 +13,6 @@ public interface IProxyDao {
     boolean remove(int proxyPort);
 
     List<ProxyModel> proxyList();
+
+    ProxyModel getProxyPort(Integer port);
 }

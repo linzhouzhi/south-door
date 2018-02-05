@@ -54,4 +54,9 @@ public class UrlDao implements IUrlDao{
         }
         return res;
     }
+
+    @Override
+    public UrlModel getUrlModel(String showName) {
+        return urlMap.get(showName);
+    }
 }
