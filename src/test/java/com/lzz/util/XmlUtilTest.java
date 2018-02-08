@@ -1,5 +1,6 @@
 package com.lzz.util;
 
+import org.dom4j.DocumentException;
 import org.junit.Test;
 
 import java.util.Map;
@@ -17,14 +18,17 @@ public class XmlUtilTest {
     }
 
     @Test
-    public void test002(){
+    public void test002() throws DocumentException {
         XmlUtil xmlUtil1 = new XmlUtil("user.xml");
         Map map = xmlUtil1.getAllMap();
         System.out.println( map );
+        XmlUtil xmlUtil2 = new XmlUtil("user2.xml");
+        Map map2 = xmlUtil2.getAllMap();
+        System.out.println( map2 );
     }
 
     @Test
-    public void test003(){
+    public void test003() throws DocumentException {
         XmlUtil xmlUtil1 = new XmlUtil("user.xml");
         xmlUtil1.remove("aaa111");
         XmlUtil xmlUtil2 = new XmlUtil("user2.xml");
@@ -32,8 +36,19 @@ public class XmlUtilTest {
     }
 
     @Test
-    public void test004(){
-        System.out.println( PropertiesUtil.get("server.port") );
+    public void test004() throws Exception {
+        test001();
+        test002();
+        test003();
+        test002();
+    }
+
+    @Test
+    public void test005() throws InterruptedException {
+        while (true){
+            System.out.println( PropertiesUtil.propertiesMap );
+            Thread.sleep(1000);
+        }
 
         //String path = XmlUtil.class.getResource("/").toString();
         //System.out.println("path = " + path);

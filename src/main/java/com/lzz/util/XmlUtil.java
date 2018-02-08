@@ -17,15 +17,16 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class XmlUtil {
     private static String BASE_PATH = "";
-    private static Map<String, ConcurrentHashMap<String, String>> mxlMap = new HashMap();
+    private static Map<String, Map<String, String>> mxlMap = new HashMap();
     private String fileName;
 
-    public XmlUtil(String fileName){
+    public XmlUtil(String fileName) throws DocumentException {
         synchronized (this){
             this.fileName = fileName;
             Map<String, String> fileMap = mxlMap.get( getFile( fileName ) );
             if( null == fileMap ){
-                mxlMap.put( fileName, new ConcurrentHashMap<>());
+                fileMap = readXml( fileName );
+                mxlMap.put( fileName, fileMap);
             }
         }
     }
@@ -44,13 +45,8 @@ public class XmlUtil {
     }
 
     public Map<String, String> getAllMap(){
-        Map<String, String> resMap = new HashMap<>();
-        try {
-            resMap = readXml(this.fileName);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-        return resMap;
+        Map<String, String> fileMap = mxlMap.get( getFile( this.fileName ) );
+        return fileMap;
     }
 
     private boolean deleteRow(String fileName, String key){
@@ -115,7 +111,7 @@ public class XmlUtil {
     }
 
     private Map<String, String> readXml(String fileName) throws DocumentException {
-        Map<String, String> elements = new HashMap<>();
+        Map<String, String> elements = new ConcurrentHashMap<>();
         File f = new File( getFile(fileName) );
         SAXReader reader = new SAXReader();
         Document doc = reader.read(f);
