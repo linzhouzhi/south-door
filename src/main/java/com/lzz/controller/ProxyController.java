@@ -3,6 +3,7 @@ package com.lzz.controller;
 import com.lzz.logic.ProxyLogic;
 import com.lzz.model.Response;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,11 @@ import javax.annotation.Resource;
 public class ProxyController {
     @Resource
     ProxyLogic logic;
+
+    @RequestMapping("/proxylist")
+    public String proxyList(Model model) {
+        return "proxylist";
+    }
 
     @RequestMapping(value="/add-proxy", method = RequestMethod.GET)
     @ResponseBody

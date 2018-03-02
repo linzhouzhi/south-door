@@ -1,5 +1,6 @@
 package com.lzz.model;
 
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 /**
@@ -43,5 +44,15 @@ public class UrlModel {
 
     public void setProxyPort(int proxyPort) {
         this.proxyPort = proxyPort;
+    }
+
+    public String serializa(){
+        return JSONObject.fromObject(this).toString();
+    }
+
+    public static UrlModel unSerializa(String str){
+        JSONObject jsonObject =  JSONObject.fromObject( str );
+        UrlModel urlModel = (UrlModel) JSONObject.toBean( jsonObject, UrlModel.class);
+        return  urlModel;
     }
 }

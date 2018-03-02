@@ -2,12 +2,10 @@ package com.lzz.controller;
 
 import com.lzz.logic.UrlLogic;
 import com.lzz.model.Response;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -19,9 +17,14 @@ public class UrlController {
     @Resource
     UrlLogic logic;
 
-    @RequestMapping("/south-door")
-    public String postman(Model model) {
-        return "south_door";
+    @RequestMapping("/index")
+    public String index(Model model) {
+        return "index";
+    }
+
+    @RequestMapping("/urllist")
+    public String urlList(Model model) {
+        return "urllist";
     }
 
     @RequestMapping(value="/add-url", method = RequestMethod.GET)
@@ -29,6 +32,12 @@ public class UrlController {
     public Response addUrl(@RequestParam String showName, @RequestParam String url,
                            @RequestParam(name="proxyPort", defaultValue="0") int proxyPort){
         return logic.addUrl(showName, url, proxyPort);
+    }
+
+    @RequestMapping(value="/save-url", method = RequestMethod.POST)
+    @ResponseBody
+    public Response saveUrl(@RequestBody JSONObject req){
+        return logic.saveUrl(req);
     }
 
     @RequestMapping(value="/remove-url", method = RequestMethod.GET)

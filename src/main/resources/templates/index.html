@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/mvc">
+<head>
+	<meta charset="UTF-8" />
+
+	<link href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" charset="utf-8"/>
+	<link href="../css/zzsc.css" type="text/css" rel="stylesheet" />
+	<script src="../jquery/jquery-2.2.3.min.js"></script>
+	<script src="../bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+
+	<style>
+
+	</style>
+</head>
+
+<body>
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/index">southDoor</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/urllist">url</a></li>
+				<li><a href="/proxylist" id="add-url-button">proxy</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
+
+<div class="container-fluid">
+	<div id="wrap">
+		<div id="scroll_box">
+			<div class="box_163css pr">
+				<ul class="roll_ul">
+					<li>
+						<div class="weblist">
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+						</div>
+					</li>
+					<li>
+						<div class="weblist">
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+						</div>
+					</li>
+					<li>
+						<div class="weblist">
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+							<a href="http://www.xwcms.net"><img src="../images/aa.png" /></a>
+						</div>
+					</li>
+				</ul>
+
+			</div>
+			<a href="#163css" class="prev pa none" id="banner_prev"></a>
+			<a href="#163css" class="next pa" id="banner_next"></a>
+		</div>
+		<div class="scroll_nav">
+			<b class="current">常去网站</b>
+			<b>应用</b>
+			<b>产品</b>
+		</div>
+	</div>
+</div><!-- .container-fluid -->
+
+<script src="../js/common.js"></script>
+<script th:inline="JavaScript">
+	/*<![CDATA[*/
+	$(function(){
+		var w=100+"%";
+		var n=$('.roll_ul li').size();
+		$('.roll_ul').width(100*n+"%");
+		$('.roll_ul li').width(100/n+"%");
+		var t=0;
+		$('#banner_next').bind('click',function(){
+			t++;
+			$('#banner_prev').show();
+			var f=$('.roll_ul').css('left');
+			$('.roll_ul').animate({'left':'-=100%'},300);
+			if(t==n-1){
+				$('#banner_next').hide()
+			}
+			$('.scroll_nav b').eq(t).siblings().removeClass('current');
+			$('.scroll_nav b').eq(t).addClass('current');
+		})
+		$('#banner_prev').click(function(){
+			t--;
+			$('#banner_next').show();
+			var l=$('.roll_ul').css('left');
+			$('.roll_ul').animate({'left':'+=100%'},300)
+			if(t==0){
+				$('#banner_prev').hide()
+			}
+			$('.scroll_nav b').eq(t).siblings().removeClass('current');
+			$('.scroll_nav b').eq(t).addClass('current');
+		})
+		$('.scroll_nav b').each(function(i){
+			$(this).click(function(){
+				i=$(this).index();
+				$('#banner_prev').show();
+				if(i==0){
+					$('#banner_prev').hide();
+					$('#banner_next').show();
+				}
+				if(i==n-1){
+					$('#banner_next').hide();
+				}
+				var cd=-100*i+"%";
+				$('.roll_ul').animate({'left':cd},500);
+				$(this).siblings().removeClass('current');
+				$(this).addClass('current')
+			})
+		})
+	})
+	/*]]>*/
+</script>
+</body>
+</html>

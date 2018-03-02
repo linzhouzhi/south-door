@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/mvc">
+<head>
+	<meta charset="UTF-8" />
+
+	<link href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" charset="utf-8"/>
+
+	<script src="../jquery/jquery-2.2.3.min.js"></script>
+	<script src="../bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+
+	<style>
+
+	</style>
+</head>
+
+<body>
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/index">southDoor</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/urllist">url</a></li>
+				<li><a href="/proxylist" id="add-url-button">proxy</a></li>
+			</ul>
+			<div class="navbar-form navbar-right">
+				<div class="form-group">
+					<input type="text" name="url-request" class="form-control" placeholder="http://127.0.0.1" />
+				</div>
+				<button type="button" id="url-request-button" class="btn btn-default">request</button>
+				<button type="button" id="url-save-button" class="btn btn-default">save</button>
+			</div>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
+
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="col-lg-12" id="page-content">
+					<iframe src="" name="showframe" style="width:100%;" scrolling="auto" frameborder="0" />
+				</div><!-- /.col-lg-12 -->
+			</div>
+		</div><!-- .panel -->
+	</div><!-- .row -->
+</div><!-- .container-fluid -->
+
+<script src="../js/common.js"></script>
+<script src="../html2canvas/html2canvas.js"></script>
+<script th:inline="JavaScript">
+	/*<![CDATA[*/
+	$("#url-request-button").click(function () {
+		var url = $('[name="url-request"]').val();
+		$('[name="showframe"]').attr("src", url);
+	});
+
+	$("#url-save-button").click(function () {
+
+		html2canvas( $('#page-content')[0],{useCORS:false} ).then(function(canvas) {
+			var imgUri = canvas.toDataURL(); // 获取生成的图片的url
+			var params = {};
+			params.showName = "aaaa";
+			params.url = "http://localhost:8081/test";
+			params.proxyPort = 12;
+			params.page = imgUri;
+
+			post("/save-url", params, function (res) {
+				console.log(res);
+			})
+		});
+
+	});
+	/*]]>*/
+
+</script>
+</body>
+</html>

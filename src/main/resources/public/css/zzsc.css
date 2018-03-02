@@ -1,0 +1,31 @@
+/* CSS Document */
+body,h1,h2,h3,h4,h5,h6,p,ul,ol,li,form,img,dl,dt,dd,table,th,td,blockquote,fieldset,div,strong,label,em{margin:0;padding:0;border:0;}
+ul,ol,li{list-style:none;}
+input,button{margin:0;font-size:12px;vertical-align:middle;}
+body{font-size:12px;font-family:Arial, Helvetica, sans-serif; color:#333; margin:0 auto; height:100%;}
+table{border-collapse:collapse;border-spacing:0;}
+html{ height:100%;}
+
+.pr{ position:relative;}
+.pa{ position:absolute;}
+.none{ display:none;}
+
+#wrap{ width:100%; position:relative; height:100%;}
+#scroll_box{ width:100%;overflow:hidden; }
+.box_163css{ width:100%; position:relative;height:720px; overflow:hidden;}
+.roll_ul{ position:absolute; left:0; top:10%;}
+.roll_ul li{float:left;}
+
+.weblist{ width:85%; margin:0 auto; top:-20%;}
+.weblist a{ display:block; float:left; display:inline; width:20%; height:15%; overflow:hidden;margin:0 0 3% 3%;}
+.weblist img{ width:100%; display:block; }
+
+.prev,.next{ cursor:pointer; width:8%; height:100%; _height:720px; top:0;}
+.prev{ left:0; background:url(../images/arrow_l.png) no-repeat center 44%;}
+.prev:hover{background:#efefef url(../images/arrow_l.png) no-repeat center 44%;}
+.next{ right:0;background:url(../images/arrow_r.png) no-repeat center 44%;}
+.next:hover{background:#efefef url(../images/arrow_r.png) no-repeat center 44%;}
+
+.scroll_nav{ width:100%; text-align:center; padding-top:10px; height:39px; overflow:hidden; background:#ededed; border-top:1px solid #d7d7d7;  position:absolute; left:0; text-align:center; bottom:0;}
+.scroll_nav b{ width:80px; border-top:5px solid #d5d5d5; color:#999; display:inline-block; height:30px; margin-right:12px; line-height:30px; cursor:pointer;}
+.scroll_nav b.current{ border-top:5px solid #7f7f7f; color:#7f7f7f;}

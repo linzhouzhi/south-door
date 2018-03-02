@@ -2,6 +2,7 @@ package com.lzz.dao.imp;
 
 import com.lzz.dao.IUrlDao;
 import com.lzz.model.UrlModel;
+import com.lzz.util.XmlUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Map;
  */
 @Component
 public class UrlDao implements IUrlDao{
+    private static final String URL_DB = "url-db.xml";
     public static Map<String, UrlModel> urlMap = new HashMap();
     static {
         for(int i = 0; i < 100; i++){
@@ -26,9 +28,10 @@ public class UrlDao implements IUrlDao{
     @Override
     public boolean add(UrlModel urlModel) {
         String showName = urlModel.getShowName();
+        XmlUtil xmlUtil = new XmlUtil( URL_DB );
         boolean res = true;
         try {
-            urlMap.put(showName, urlModel);
+            xmlUtil.add(showName, urlModel.serializa() );
         }catch (Exception e){
             res = false;
         }
@@ -37,9 +40,12 @@ public class UrlDao implements IUrlDao{
 
     @Override
     public List<UrlModel> urlList() {
-        List<UrlModel> urlList = new ArrayList<>();
-        for(Map.Entry<String, UrlModel> element : urlMap.entrySet()){
-            urlList.add( element.getValue() );
+        XmlUtil xmlUtil = new XmlUtil( URL_DB );
+        List<UrlModel>  urlList = new ArrayList<>();
+        Map<String, String> urlMap = xmlUtil.getAllMap();
+        for(Map.Entry<String, String> element : urlMap.entrySet()){
+            String value = element.getValue();
+            urlList.add( UrlModel.unSerializa( value ) );
         }
         return urlList;
     }

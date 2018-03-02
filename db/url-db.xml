@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<elements>
+	<element key="aaaa" value="{&quot;proxyPort&quot;:12,&quot;showName&quot;:&quot;aaaa&quot;,&quot;url&quot;:&quot;http://localhost:8081/test&quot;}"/>
+</elements>

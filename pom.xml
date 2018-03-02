@@ -19,11 +19,15 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+
         </dependency>
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
@@ -53,6 +57,34 @@
             <artifactId>dom4j</artifactId>
             <version>1.6.1</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.sf.cssbox/cssbox -->
+        <dependency>
+            <groupId>net.sf.cssbox</groupId>
+            <artifactId>cssbox</artifactId>
+            <version>4.4</version>
+            <exclusions>
+                <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                </exclusion>
+                <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
     </dependencies>
 
     <properties>

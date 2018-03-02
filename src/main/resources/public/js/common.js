@@ -2,6 +2,19 @@
  * Created by lzz on 2018/2/1.
  */
 
+function post(url, data, callback) {
+    $.ajax({
+        type: "POST",
+        url: url,
+        async: false,
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        dataType: "json",
+        success: callback
+    });
+}
+
+
 function  alert_msg(msg) {
     var str = "<strong>Warn!</strong> <span> please check format </span>";
     if( msg ){
