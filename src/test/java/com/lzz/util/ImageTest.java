@@ -18,9 +18,9 @@ public class ImageTest {
         ImageRenderer render = new ImageRenderer();
         //render.setLoadImages(true, true);
         System.out.println("kaishi");
-        String url = "http://blog.csdn.net/";
+        String url = "https://www.newegg.com/";
         FileOutputStream out = new FileOutputStream(new File("/Users/lzz/work/java/south-door/src/main/resources/public/images/aa1.png"));
-        render.renderURL(url, out, ImageRenderer.TYPE_PNG);
+        render.renderURL(url, out, ImageRenderer.Type.PNG);
         System.out.println("OK");
 
     }

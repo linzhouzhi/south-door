@@ -19,6 +19,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+
             <exclusions>
 
             </exclusions>
@@ -26,8 +27,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <optional>true</optional>
             <scope>test</scope>
+            <exclusions>
 
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
@@ -68,20 +72,9 @@
         <dependency>
             <groupId>net.sf.cssbox</groupId>
             <artifactId>cssbox</artifactId>
-            <version>4.4</version>
+            <version>4.12</version>
             <exclusions>
-                <exclusion>
-                        <groupId>ch.qos.logback</groupId>
-                        <artifactId>logback-classic</artifactId>
-                </exclusion>
-                <exclusion>
-                        <groupId>ch.qos.logback</groupId>
-                        <artifactId>logback-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
+
             </exclusions>
         </dependency>
 

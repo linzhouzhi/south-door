@@ -1,31 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/mvc">
-<head>
-	<meta charset="UTF-8" />
-
-	<link href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" charset="utf-8"/>
-
-	<script src="../jquery/jquery-2.2.3.min.js"></script>
-	<script src="../bootstrap-3.3.7-dist/js/bootstrap.js"></script>
-
-	<style>
-
-	</style>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header" />
 
 <body>
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/index">southDoor</a>
+			<a class="navbar-brand" href="/index"><span class="glyphicon glyphicon-home"></span> southDoor</a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="/urllist">url</a></li>
-				<li><a href="/proxylist" id="add-url-button">proxy</a></li>
+				<li><a href="/urllist">url</a></li>
+				<li class="active"><a href="/proxylist" id="add-url-button">proxy</a></li>
 			</ul>
 		</div><!-- /.navbar-collapse -->
 	</div><!-- /.container-fluid -->
@@ -34,16 +23,72 @@
 <div class="container">
 	<div class="row">
 		<div class="panel panel-default">
+			<div class="panel-heading float-header">
+				<a class="btn btn-default btn-xs add-header" data-loading-text="Check..."  id="add-proxy-model" href="javascript:void(0)">
+					<span class="glyphicon glyphicon-plus"></span>	Add
+				</a>
+			</div>
 			<div class="panel-body">
-				<div class="col-lg-12" id="page-content">
-					<div>proxy list</div>
-				</div><!-- /.col-lg-12 -->
+				<table class="table table-bordered">
+					<thead>
+					<tr>
+						<th>ProxyPort</th>
+						<th>Port</th>
+						<th>IP</th>
+						<th class="operate">Operate</th>
+					</tr>
+					</thead>
+					<tbody id="show-proxy-list">
+
+					</tbody>
+				</table>
 			</div>
 		</div><!-- .panel -->
 	</div><!-- .row -->
 </div><!-- .container-fluid -->
 
-<script src="../js/common.js"></script>
+
+
+<!-- save flow chart modal -->
+<div id="add-proxy-modal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Add Proxy</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group hide">
+					<label>group</label>
+					<input type="text" name="modal-group" class="form-control"  placeholder="itemservice" />
+				</div>
+				<div class="form-group">
+					<label>proxyPort</label>
+					<input type="text" name="modal-proxyPort" class="form-control"  placeholder="8028" />
+				</div>
+				<div class="form-group">
+					<label>port</label>
+					<input type="text" name="modal-port" class="form-control"  placeholder="8018" />
+				</div>
+				<div class="form-group">
+					<label>ip</label>
+					<input type="text" name="modal-ip" class="form-control"  placeholder="127.0.0.1" />
+				</div>
+				<div class="alert div-alert-warning hidden" id="proxy-manager-alert">
+
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-success" id="save-proxy-modal-confirm">Save</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div th:include="common/modal ::  page_modal"></div>
+
+<script src="../js/proxylist.js"></script>
 <script th:inline="JavaScript">
 	/*<![CDATA[*/
 

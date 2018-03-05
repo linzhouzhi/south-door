@@ -16,12 +16,11 @@ public class ProxyLogic {
     IProxyDao proxyDao;
 
 
-    public Response addProxy(int proxyPort, int port, String ip) {
-        ProxyModel proxyModel = new ProxyModel(proxyPort, port, ip);
+    public Response addProxy(ProxyModel proxyModel) {
         return proxyDao.add( proxyModel )  == true ? Response.Success() : Response.Fail();
     }
 
-    public Response removeProxy(int proxyPort) {
+    public Response removeProxy(Integer proxyPort) {
         return proxyDao.remove(proxyPort)  == true ? Response.Success() : Response.Fail();
     }
 

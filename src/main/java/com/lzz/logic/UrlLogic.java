@@ -2,26 +2,32 @@ package com.lzz.logic;
 
 import com.lzz.dao.IUrlDao;
 import com.lzz.model.Response;
+import com.lzz.model.ShowUrlModel;
 import com.lzz.model.UrlModel;
-import com.lzz.util.ImageUtil;
-import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by lzz on 2018/2/4.
  */
 @Component
 public class UrlLogic {
+    private static ExecutorService threadPool = Executors.newCachedThreadPool();
+
     @Resource
     IUrlDao urlDao;
 
-    public Response addUrl(String showName, String url, int proxyPort) {
-        UrlModel urlModel = new UrlModel(showName, url, proxyPort);
+    public Response addUrl(UrlModel urlModel) {
         Response response = Response.Fail();
         if (urlDao.add(urlModel) == true) {
+            String showName = urlModel.getShowName();
+            String url = urlModel.getUrl();
+            threadPool.submit(new ImageTask(showName, url) );
             response = Response.Success();
         }
         return response;
@@ -36,6 +42,59 @@ public class UrlLogic {
         return new Response(0, "success", urlList);
     }
 
+    public Response urlMap(){
+        List<UrlModel> urlList = urlDao.urlList();
+        Map<String, List<ShowUrlModel>> res = new HashMap<>();
+        for(UrlModel urlModel : urlList){
+            String group = urlModel.getGroup();
+            List<ShowUrlModel> tmpList = res.get(group);
+            if( tmpList == null ){
+                tmpList = new ArrayList<>();
+            }
+            tmpList.add( new ShowUrlModel(urlModel, getDomain(urlModel.getUrl()), getShowUrl(urlModel.getProxyPort(), urlModel.getUrl()) ));
+            res.put( group, tmpList);
+        }
+        return new Response(0, "success", res);
+    }
+
+    private static String getShowUrl(Integer proxyPort, String url) {
+        if( null == proxyPort || StringUtils.isEmpty( url ) || !url.contains(":")){
+            return url;
+        }
+        String showUrl = url;
+        String[] tmpArr = url.split("//");
+        if( tmpArr.length == 2 ){
+            String httpProxy = tmpArr[0];
+            String fullPath = tmpArr[1];
+            String[] fullPathArr = fullPath.split(":");
+            if( fullPathArr.length == 2 ){
+                String ip = fullPathArr[0];
+                showUrl = httpProxy + "//" + ip;
+                String path = fullPathArr[1];
+                showUrl += ":" + proxyPort;
+                if( path.indexOf("/") > -1 ){
+                    path = path.substring( path.indexOf("/") );
+                    showUrl += path;
+                }
+            }
+        }
+        return showUrl;
+    }
+
+    private static String getDomain(String url) {
+        if(StringUtils.isEmpty( url )){
+            return url;
+        }
+        String[] tmpArr = url.split("//");
+        if( tmpArr.length == 2 ){
+            String httpProxy = tmpArr[0];
+            String urlPath = tmpArr[1];
+            urlPath = urlPath.split("/")[0];
+            url = httpProxy + "//" + urlPath;
+        }
+        return url;
+    }
+
 
     public boolean checkShowName(String showName){
         UrlModel urlModel = urlDao.getUrlModel(showName);
@@ -46,15 +105,18 @@ public class UrlLogic {
         return res;
     }
 
-    public Response saveUrl(JSONObject req) {
-        String showName = req.getString("showName");
-        String url = req.getString("url");
-        int proxyPort = req.getInt("proxyPort");
-        String pageImg = req.getString("page");
-        ImageUtil.generateImage(pageImg, "/Users/lzz/work/java/south-door/src/main/resources/public/images/aa.png");
-        //UrlModel urlModel = new UrlModel(showName, url, proxyPort);
-        //urlDao.add(urlModel);
+    public Set<String> urlGroup() {
+        Set<String> urlGroup = new HashSet<>();
+        List<UrlModel> urlList = urlDao.urlList();
+        for(int i = 0; i < urlList.size(); i++){
+            UrlModel urlModel = urlList.get(i);
+            urlGroup.add( urlModel.getGroup() );
+        }
+        return urlGroup;
+    }
 
-        return Response.Success();
+    public static void main(String[] args){
+        String url = "http://127.0.0.2:121/fdsa";
+        System.out.println( getShowUrl(9088, url) );
     }
 }

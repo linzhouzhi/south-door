@@ -1,39 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.springframework.org/schema/mvc">
-<head>
-	<meta charset="UTF-8" />
-
-	<link href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" charset="utf-8"/>
-
-	<script src="../jquery/jquery-2.2.3.min.js"></script>
-	<script src="../bootstrap-3.3.7-dist/js/bootstrap.js"></script>
-
-	<style>
-
-	</style>
-</head>
-
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header" />
 <body>
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/index">southDoor</a>
+			<a class="navbar-brand" href="/index"><span class="glyphicon glyphicon-home"></span> southDoor</a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="/urllist">url</a></li>
-				<li><a href="/proxylist" id="add-url-button">proxy</a></li>
+				<li><a href="/proxylist">proxy</a></li>
 			</ul>
-			<div class="navbar-form navbar-right">
-				<div class="form-group">
-					<input type="text" name="url-request" class="form-control" placeholder="http://127.0.0.1" />
-				</div>
-				<button type="button" id="url-request-button" class="btn btn-default">request</button>
-				<button type="button" id="url-save-button" class="btn btn-default">save</button>
-			</div>
 		</div><!-- /.navbar-collapse -->
 	</div><!-- /.container-fluid -->
 </nav>
@@ -41,40 +22,74 @@
 <div class="container">
 	<div class="row">
 		<div class="panel panel-default">
+			<div class="panel-heading float-header">
+				<a class="btn btn-default btn-xs add-header" data-loading-text="Check..."  id="add-url-button" href="javascript:void(0)">
+				<span class="glyphicon glyphicon-plus"></span>	Add
+				</a>
+			</div>
 			<div class="panel-body">
-				<div class="col-lg-12" id="page-content">
-					<iframe src="" name="showframe" style="width:100%;" scrolling="auto" frameborder="0" />
-				</div><!-- /.col-lg-12 -->
+				<table class="table table-bordered">
+					<thead>
+					<tr>
+						<th>ShowName</th>
+						<th>Group</th>
+						<th>Url</th>
+						<th>Port</th>
+						<th class="operate">Operate</th>
+					</tr>
+					</thead>
+					<tbody id="show-url-list">
+
+					</tbody>
+				</table>
 			</div>
 		</div><!-- .panel -->
 	</div><!-- .row -->
 </div><!-- .container-fluid -->
 
-<script src="../js/common.js"></script>
-<script src="../html2canvas/html2canvas.js"></script>
+<!-- save flow chart modal -->
+<div id="add-url-modal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Add Url</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>group</label>
+					<input type="text" name="modal-group" class="form-control"  placeholder="itemservice" />
+				</div>
+				<div class="form-group">
+					<label>showName</label>
+					<input type="text" name="modal-showName" class="form-control"  placeholder="south-door" />
+				</div>
+				<div class="form-group">
+					<label>url</label>
+					<input type="text" name="modal-url" class="form-control"  placeholder="http://127.0.0.1" />
+				</div>
+				<div class="form-group">
+					<label>proxyPort</label>
+					<input type="text" name="modal-proxyPort" class="form-control"  placeholder="8018" />
+				</div>
+				<div class="alert div-alert-warning hidden" id="url-manager-alert">
+
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-success" id="save-url-modal-confirm">Save</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div th:include="common/modal ::  page_modal"></div>
+
+<script src="../js/urllist.js"></script>
 <script th:inline="JavaScript">
 	/*<![CDATA[*/
-	$("#url-request-button").click(function () {
-		var url = $('[name="url-request"]').val();
-		$('[name="showframe"]').attr("src", url);
-	});
 
-	$("#url-save-button").click(function () {
-
-		html2canvas( $('#page-content')[0],{useCORS:false} ).then(function(canvas) {
-			var imgUri = canvas.toDataURL(); // 获取生成的图片的url
-			var params = {};
-			params.showName = "aaaa";
-			params.url = "http://localhost:8081/test";
-			params.proxyPort = 12;
-			params.page = imgUri;
-
-			post("/save-url", params, function (res) {
-				console.log(res);
-			})
-		});
-
-	});
 	/*]]>*/
 
 </script>

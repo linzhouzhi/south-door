@@ -10,16 +10,20 @@ import org.springframework.stereotype.Component;
 public class UrlModel {
     private String showName;
     private String url;
-    private int proxyPort;
+    private Integer proxyPort;
+    private String group;
+    private String describe;
 
 
     public UrlModel(){
 
     }
-    public UrlModel(String showName, String url, int proxyPort) {
+    public UrlModel(String showName, String url, Integer proxyPort, String group, String describe) {
         this.showName = showName;
         this.url = url;
         this.proxyPort = proxyPort;
+        this.group = group;
+        this.describe = describe;
     }
 
     public String getShowName() {
@@ -38,12 +42,28 @@ public class UrlModel {
         this.url = url;
     }
 
-    public int getProxyPort() {
+    public Integer getProxyPort() {
         return proxyPort;
     }
 
-    public void setProxyPort(int proxyPort) {
+    public void setProxyPort(Integer proxyPort) {
         this.proxyPort = proxyPort;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
     }
 
     public String serializa(){

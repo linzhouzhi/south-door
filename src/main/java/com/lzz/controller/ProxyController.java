@@ -1,13 +1,11 @@
 package com.lzz.controller;
 
 import com.lzz.logic.ProxyLogic;
+import com.lzz.model.ProxyModel;
 import com.lzz.model.Response;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -24,10 +22,10 @@ public class ProxyController {
         return "proxylist";
     }
 
-    @RequestMapping(value="/add-proxy", method = RequestMethod.GET)
+    @RequestMapping(value="/add-proxy", method = RequestMethod.POST)
     @ResponseBody
-    public Response addProxy(@RequestParam int proxyPort, @RequestParam int port, @RequestParam String ip){
-        return logic.addProxy(proxyPort, port, ip);
+    public Response addProxy(@RequestBody ProxyModel proxyModel){
+        return logic.addProxy(proxyModel);
     }
 
     @RequestMapping(value="/remove-proxy", method = RequestMethod.GET)

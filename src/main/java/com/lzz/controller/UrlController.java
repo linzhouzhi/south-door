@@ -2,12 +2,13 @@ package com.lzz.controller;
 
 import com.lzz.logic.UrlLogic;
 import com.lzz.model.Response;
-import net.sf.json.JSONObject;
+import com.lzz.model.UrlModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Set;
 
 /**
  * Created by lzz on 2018/2/4.
@@ -27,17 +28,16 @@ public class UrlController {
         return "urllist";
     }
 
-    @RequestMapping(value="/add-url", method = RequestMethod.GET)
+    @RequestMapping(value="/add-url", method = RequestMethod.POST)
     @ResponseBody
-    public Response addUrl(@RequestParam String showName, @RequestParam String url,
-                           @RequestParam(name="proxyPort", defaultValue="0") int proxyPort){
-        return logic.addUrl(showName, url, proxyPort);
+    public Response addUrl(@RequestBody UrlModel urlModel){
+        return logic.addUrl(urlModel);
     }
 
     @RequestMapping(value="/save-url", method = RequestMethod.POST)
     @ResponseBody
-    public Response saveUrl(@RequestBody JSONObject req){
-        return logic.saveUrl(req);
+    public Response saveUrl(@RequestBody UrlModel urlModel){
+        return null;
     }
 
     @RequestMapping(value="/remove-url", method = RequestMethod.GET)
@@ -50,5 +50,17 @@ public class UrlController {
     @ResponseBody
     public Response urlList(){
         return logic.urlList();
+    }
+
+    @RequestMapping(value="/url-map", method = RequestMethod.GET)
+    @ResponseBody
+    public Response urlMap(){
+        return logic.urlMap();
+    }
+
+    @RequestMapping(value="/url-group", method = RequestMethod.GET)
+    @ResponseBody
+    public Set<String> groupSet(){
+        return logic.urlGroup();
     }
 }

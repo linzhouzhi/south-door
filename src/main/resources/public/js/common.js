@@ -14,6 +14,28 @@ function post(url, data, callback) {
     });
 }
 
+function get(url, callback,errocall) {
+    $.ajax({
+        type: "GET",
+        url: url,
+        async: false,
+        contentType: "application/json; charset=utf-8",
+        success: callback,
+        error:errocall
+    });
+}
+
+
+function delete_confirm(url) {
+    $("#delete-modal").modal("show");
+    $("#modal-confirm-delete").data("url", url);
+}
+$(document).on("click", "#modal-confirm-delete", function () {
+    var req_url = $(this).data("url");
+    $.get(req_url, function (res) {
+        location.reload();
+    });
+});
 
 function  alert_msg(msg) {
     var str = "<strong>Warn!</strong> <span> please check format </span>";
@@ -22,6 +44,8 @@ function  alert_msg(msg) {
     }
     return str;
 }
+
+
 function checkGet(load_obj,check_url, url, callback, errorcall) {
     $.ajax({
         type:'get',
@@ -76,4 +100,41 @@ function getQueryString(name) {
     reg = null;
     r = null;
     return context == null || context == "" || context == "undefined" ? "" : context;
+}
+
+
+String.prototype.format = function(args) {
+    var result = this;
+    if (arguments.length > 0) {
+        if (arguments.length == 1 && typeof (args) == "object") {
+            for (var key in args) {
+                if(args[key]!=undefined){
+                    var reg = new RegExp("({" + key + "})", "g");
+                    result = result.replace(reg, args[key]);
+                }
+            }
+        }
+        else {
+            for (var i = 0; i < arguments.length; i++) {
+                if (arguments[i] != undefined) {
+                    var reg= new RegExp("({)" + i + "(})", "g");
+                    result = result.replace(reg, arguments[i]);
+                }
+            }
+        }
+    }
+    return result;
+}
+
+
+
+function get_url_by_param(path, params) {
+    var url = path + "?";
+    for(param in params){
+        if( params[param] ){
+            url += param + "=" + params[param] + "&";
+        }
+    }
+    console.log(url);
+    return url;
 }
