@@ -4,6 +4,7 @@ import com.lzz.dao.IUrlDao;
 import com.lzz.model.Response;
 import com.lzz.model.ShowUrlModel;
 import com.lzz.model.UrlModel;
+import com.lzz.util.NetUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -62,20 +63,26 @@ public class UrlLogic {
             return url;
         }
         String showUrl = url;
-        String[] tmpArr = url.split("//");
-        if( tmpArr.length == 2 ){
-            String httpProxy = tmpArr[0];
-            String fullPath = tmpArr[1];
-            String[] fullPathArr = fullPath.split(":");
-            if( fullPathArr.length == 2 ){
-                String ip = fullPathArr[0];
-                showUrl = httpProxy + "//" + ip;
-                String path = fullPathArr[1];
-                showUrl += ":" + proxyPort;
-                if( path.indexOf("/") > -1 ){
-                    path = path.substring( path.indexOf("/") );
-                    showUrl += path;
+        if( proxyPort > 0 ){
+            try {
+                String[] tmpArr = url.split("//");
+                if( tmpArr.length == 2 ){
+                    String httpProxy = tmpArr[0];
+                    String fullPath = tmpArr[1];
+                    String[] fullPathArr = fullPath.split(":");
+                    if( fullPathArr.length == 2 ){
+                        String ip = NetUtil.getLocalIp();
+                        showUrl = httpProxy + "//" + ip;
+                        String path = fullPathArr[1];
+                        showUrl += ":" + proxyPort;
+                        if( path.indexOf("/") > -1 ){
+                            path = path.substring( path.indexOf("/") );
+                            showUrl += path;
+                        }
+                    }
                 }
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
         return showUrl;

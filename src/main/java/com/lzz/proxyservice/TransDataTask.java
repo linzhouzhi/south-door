@@ -24,10 +24,11 @@ public class TransDataTask implements Runnable {
     public void run(){
         try {
             while ( this.threadSwitch.isStart() == true ){
+                InputStream in = null;
+                OutputStream out = null;
                 try {
-                    System.out.println("transportdata----" + this.threadSwitch.isStart());
-                    InputStream in = getDataSocket.getInputStream() ;
-                    OutputStream out = putDataSocket.getOutputStream() ;
+                    in = getDataSocket.getInputStream() ;
+                    out = putDataSocket.getOutputStream() ;
 
                     byte[] data = new byte[1024];
                     int readlen = in.read(data);
@@ -40,6 +41,9 @@ public class TransDataTask implements Runnable {
                     out.flush();
                 }catch (Exception e){
                     logger.error( e );
+                    in.close();
+                    out.close();
+                    break;
                 }
             }
         } catch (Exception e) {
