@@ -3,6 +3,7 @@ package com.lzz.logic;
 import com.lzz.dao.IProxyDao;
 import com.lzz.model.ProxyModel;
 import com.lzz.model.Response;
+import com.lzz.util.NetUtil;
 import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.List;
@@ -34,6 +35,8 @@ public class ProxyLogic {
         boolean res = false;
         if( null != proxyModel ){
             res = true;
+        }else{
+            res = NetUtil.checkPort( port );
         }
         return res;
     }

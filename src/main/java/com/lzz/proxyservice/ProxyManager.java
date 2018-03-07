@@ -51,9 +51,10 @@ public class ProxyManager {
                 try {
                     System.out.println("stop thread :" + proxyPort);
                     proxyThread.stop();
-                    proxyThreadMap.remove( proxyPort );
                 }catch (Exception e){
                     e.printStackTrace();
+                }finally {
+                    proxyThreadMap.remove( proxyPort );
                 }
             }
         }
