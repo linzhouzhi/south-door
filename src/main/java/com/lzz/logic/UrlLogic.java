@@ -58,7 +58,7 @@ public class UrlLogic {
         return new Response(0, "success", res);
     }
 
-    private static String getShowUrl(Integer proxyPort, String url) {
+    public static String getShowUrl(Integer proxyPort, String url) {
         if( null == proxyPort || StringUtils.isEmpty( url ) || !url.contains(":")){
             return url;
         }

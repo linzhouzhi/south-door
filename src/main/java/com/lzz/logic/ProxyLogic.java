@@ -3,8 +3,11 @@ package com.lzz.logic;
 import com.lzz.dao.IProxyDao;
 import com.lzz.model.ProxyModel;
 import com.lzz.model.Response;
+import com.lzz.proxyservice.ProxyManager;
 import com.lzz.util.NetUtil;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -38,6 +41,37 @@ public class ProxyLogic {
         }else{
             res = NetUtil.checkPort( port );
         }
+        return res;
+    }
+
+
+    public Response getProxyUrl(String url) {
+        Response res = null;
+        String showUrl = url;
+        if( !StringUtils.isEmpty( url ) ){
+            try {
+                String[] tmpArr = url.split("//");
+                String host = tmpArr[0];
+                if( tmpArr.length == 2 ){
+                    host = tmpArr[1];
+                }
+                host = host.split("/")[0];
+                String ip = host.split(":")[0];
+                int port = Integer.parseInt(host.split(":")[1]);
+                System.out.println( "host :" + host + " ip:" + ip + " port:" + port + " tmpProxyMap:" + ProxyManager.tmpProxyMap.size());
+                Integer proxyPort = ProxyManager.tmpProxyMap.get( host );
+                if( null == proxyPort ){
+                    ProxyModel proxyModel = new ProxyModel(0, port, ip);
+                    if( ProxyManager.startTmpProxy( proxyModel, true, true ) ){
+                        proxyPort = proxyModel.getProxyPort();
+                    }
+                }
+                showUrl = UrlLogic.getShowUrl(proxyPort, url);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        res = new Response(0, "", showUrl);
         return res;
     }
 }

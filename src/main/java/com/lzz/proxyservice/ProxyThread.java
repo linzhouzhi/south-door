@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 /**
  * Created by lzz on 2018/2/2.
@@ -17,10 +18,17 @@ public class ProxyThread implements Runnable{
     private ProxyModel proxyModel;
     private ServerSocket serverSocket;
     private ProxySwitch threadSwitch = new ProxySwitch();
+    private boolean isTemp = false;
 
     public ProxyThread(ProxyModel proxyModel, boolean threadStart){
         this.proxyModel = proxyModel;
         this.threadSwitch.setStart( threadStart );
+    }
+
+    public ProxyThread(ProxyModel proxyModel, boolean threadStart, boolean isTemp){
+        this.proxyModel = proxyModel;
+        this.threadSwitch.setStart( threadStart );
+        this.isTemp = isTemp;
     }
 
     @Override
@@ -33,18 +41,33 @@ public class ProxyThread implements Runnable{
             serverSocket = new ServerSocket(proxyPort);
 
             logger.info("proxyPort="+proxyPort + ";remoteIp=" + remoteIp + ";remotePort="+remotePort);
+            int timeoutCount = 0;
             while( threadSwitch.isStart() == true ){
                 logger.info("while true----------" + proxyPort);
                 Socket clientSocket = null;
                 Socket remoteServerSocket = null;
                 try {
+                    if( isTemp ){
+                        serverSocket.setSoTimeout( 60000 );
+                    }
                     clientSocket = serverSocket.accept();
+                    timeoutCount = 0;
                     logger.info("accept one client");
                     remoteServerSocket = new Socket(remoteIp ,remotePort);
-                    logger.info("create remoteip and port success");
+                    logger.info("create remoteip and port success proxyport " + proxyPort);
                     clientToRemote(clientSocket, remoteServerSocket);
                     remoteToClient(remoteServerSocket, clientSocket);
-                } catch (Exception e) {
+                } catch (SocketTimeoutException socketTimeoutException) {
+                    if( isTemp ){
+                        timeoutCount++;
+                        System.out.println( timeoutCount + "----;;;");
+                        if( timeoutCount > 5 ){
+                            threadSwitch.setStart( false );
+                            String host = remoteIp + ":" + remotePort;
+                            ProxyManager.tmpProxyMap.remove( host );
+                        }
+                    }
+                }catch (Exception e){
                     logger.error( e );
                 }
             }
