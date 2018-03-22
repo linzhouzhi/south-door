@@ -2,12 +2,10 @@ package com.lzz.controller;
 
 import com.lzz.logic.ProxyLogic;
 import com.lzz.model.Response;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -29,9 +27,10 @@ public class BrowserController {
         return "browser-loading";
     }
 
-    @RequestMapping(value="/tmp-proxy", method = RequestMethod.GET)
+    @RequestMapping(value="/tmp-proxy", method = RequestMethod.POST)
     @ResponseBody
-    public Response tmpProxy(@RequestParam String url){
-        return proxyLogic.getProxyUrl(url);
+    public Response tmpProxy(@RequestBody String urlObj){
+        JSONObject jsonObject = JSONObject.fromObject( urlObj );
+        return proxyLogic.getProxyUrl( jsonObject.getString("url") );
     }
 }

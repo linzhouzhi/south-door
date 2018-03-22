@@ -10,26 +10,35 @@ $(document).ready(function () {
     $("#browser-url").autocomplete({
         source: urlHistory,
         close: function( event, ui ) {
-            request_url();
+            request_url(false);
         }
     });
 });
 
 $("#browser-url").bind('keypress', function (event) {
     if (event.keyCode == "13") {
-        request_url();
+        request_url(false);
     }
 });
 
 $("#browser-url-refresh").click(function(){
-    request_url();
+    request_url(false);
 });
 
-function request_url() {
+$("#browser-url-open-window").click(function(){
+    request_url(true);
+});
+
+function request_url(isOpen) {
     var url = $("#browser-url").val().trim();
     if( url && url != null && url != "" && url.length > 12 ) {
-        get("/tmp-proxy?url=" + url, function (obj) {
-            $("#browser-iframe").attr("src", obj.result);
+        var data = {"url": url };
+        post("/tmp-proxy", data, function (obj) {
+            if( isOpen ){
+                window.open( obj.result );
+            }else{
+                $("#browser-iframe").attr("src", obj.result);
+            }
         });
     }
     var urlArr = getUrlList();

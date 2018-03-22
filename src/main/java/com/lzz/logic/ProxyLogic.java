@@ -52,7 +52,7 @@ public class ProxyLogic {
             try {
                 String[] tmpArr = url.split("//");
                 String host = tmpArr[0];
-                if( tmpArr.length == 2 ){
+                if( tmpArr.length >= 2 ){
                     host = tmpArr[1];
                 }
                 host = host.split("/")[0];

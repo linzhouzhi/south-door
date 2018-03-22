@@ -66,19 +66,16 @@ public class UrlLogic {
         if( proxyPort > 0 ){
             try {
                 String[] tmpArr = url.split("//");
-                if( tmpArr.length == 2 ){
+                if( tmpArr.length >= 2 ){
                     String httpProxy = tmpArr[0];
                     String fullPath = tmpArr[1];
-                    String[] fullPathArr = fullPath.split(":");
-                    if( fullPathArr.length == 2 ){
-                        String ip = NetUtil.getLocalIp();
-                        showUrl = httpProxy + "//" + ip;
-                        String path = fullPathArr[1];
-                        showUrl += ":" + proxyPort;
-                        if( path.indexOf("/") > -1 ){
-                            path = path.substring( path.indexOf("/") );
-                            showUrl += path;
-                        }
+                    String path = fullPath.substring( fullPath.indexOf(":") );
+                    String ip = NetUtil.getLocalIp();
+                    showUrl = httpProxy + "//" + ip;
+                    showUrl += ":" + proxyPort;
+                    if( path.indexOf("/") > -1 ){
+                        path = path.substring( path.indexOf("/") );
+                        showUrl += path;
                     }
                 }
             }catch (Exception e){
